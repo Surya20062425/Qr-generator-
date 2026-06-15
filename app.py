@@ -19,7 +19,7 @@ with col_controls:
     st.subheader("1. Configure Payload")
     data_type = st.selectbox(
         "Select Data Type",
-        ["URL or Text", "Wi-Fi Network", "Image (Compressed Base64)"]
+        ["URL or Text", "Wi-Fi Network"]
     )
     
     payload = ""
@@ -35,17 +35,7 @@ with col_controls:
             # Formats according to standard Wi-Fi QR specifications
             payload = f"WIFI:S:{ssid};T:{encryption};P:{password};;"
             
-    elif data_type == "Image (Compressed Base64)":
-        st.warning("⚠️ High capacity QR codes (like images) require 'High' error correction and modern scanners.")
-        uploaded_image = st.file_file = st.file_uploader("Upload Image (PNG/JPG)", type=["jpg", "jpeg", "png"])
-        if uploaded_image:
-            with st.spinner("Compressing and encoding image..."):
-                try:
-                    payload = process_image_to_base64(uploaded_image)
-                    st.success(f"Image successfully encoded! String size: {len(payload)} bytes")
-                except Exception as e:
-                    st.error(f"Error processing image: {e}")
-
+    
     st.subheader("2. Visual Styling")
     # Expanding advanced options cleanly
     with st.expander("Custom Colors & Parameters", expanded=True):
